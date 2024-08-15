@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
+  <title>
+   Simple Transactional Email
+  </title>
+  <style media="all" type="text/css">
+   /* -------------------------------------
+    GLOBAL RESETS
+------------------------------------- */
+    
+    body {
+      font-family: Helvetica, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      font-size: 16px;
+      line-height: 1.3;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+    
+    table {
+      border-collapse: separate;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      width: 100%;
+    }
+    
+    table td {
+      font-family: Helvetica, sans-serif;
+      font-size: 16px;
+      vertical-align: top;
+    }
+    /* -------------------------------------
+    BODY & CONTAINER
+------------------------------------- */
+    
+    body {
+      background-color: #f4f5f6;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .body {
+      background-color: #f4f5f6;
+      width: 100%;
+    }
+    
+    .container {
+      margin: 0 auto !important;
+      max-width: 600px;
+      padding: 0;
+      padding-top: 24px;
+      width: 600px;
+    }
+    
+    .content {
+      box-sizing: border-box;
+      display: block;
+      margin: 0 auto;
+      max-width: 600px;
+      padding: 0;
+    }
+    /* -------------------------------------
+    HEADER, FOOTER, MAIN
+------------------------------------- */
+    
+    .main {
+      background: #ffffff;
+      border: 1px solid #eaebed;
+      border-radius: 16px;
+      width: 100%;
+    }
+    
+    .wrapper {
+      box-sizing: border-box;
+      padding: 24px;
+    }
+    
+    .footer {
+      clear: both;
+      padding-top: 24px;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .footer td,
+    .footer p,
+    .footer span,
+    .footer a {
+      color: #9a9ea6;
+      font-size: 16px;
+      text-align: center;
+    }
+    /* -------------------------------------
+    TYPOGRAPHY
+------------------------------------- */
+    
+    p {
+      font-family: Helvetica, sans-serif;
+      font-size: 16px;
+      font-weight: normal;
+      margin: 0;
+      margin-bottom: 16px;
+    }
+    
+    a {
+      color: #0867ec;
+      text-decoration: underline;
+    }
+    /* -------------------------------------
+    BUTTONS
+------------------------------------- */
+    
+    .btn {
+      box-sizing: border-box;
+      min-width: 100% !important;
+      width: 100%;
+    }
+    
+    .btn > tbody > tr > td {
+      padding-bottom: 16px;
+    }
+    
+    .btn table {
+      width: auto;
+    }
+    
+    .btn table td {
+      background-color: #ffffff;
+      border-radius: 4px;
+      text-align: center;
+    }
+    
+    .btn a {
+      background-color: #ffffff;
+      border: solid 2px #0867ec;
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: #0867ec;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 0;
+      padding: 12px 24px;
+      text-decoration: none;
+      text-transform: capitalize;
+    }
+    
+    .btn-primary table td {
+      background-color: #0867ec;
+    }
+    
+    .btn-primary a {
+      background-color: #0867ec;
+      border-color: #0867ec;
+      color: #ffffff;
+    }
+    
+    @media all {
+      .btn-primary table td:hover {
+        background-color: #ec0867 !important;
+      }
+      .btn-primary a:hover {
+        background-color: #ec0867 !important;
+        border-color: #ec0867 !important;
+      }
+    }
+    
+    /* -------------------------------------
+    OTHER STYLES THAT MIGHT BE USEFUL
+------------------------------------- */
+    
+    .last {
+      margin-bottom: 0;
+    }
+    
+    .first {
+      margin-top: 0;
+    }
+    
+    .align-center {
+      text-align: center;
+    }
+    
+    .align-right {
+      text-align: right;
+    }
+    
+    .align-left {
+      text-align: left;
+    }
+    
+    .text-link {
+      color: #0867ec !important;
+      text-decoration: underline !important;
+    }
+    
+    .clear {
+      clear: both;
+    }
+    
+    .mt0 {
+      margin-top: 0;
+    }
+    
+    .mb0 {
+      margin-bottom: 0;
+    }
+    
+    .preheader {
+      color: transparent;
+      display: none;
+      height: 0;
+      max-height: 0;
+      max-width: 0;
+      opacity: 0;
+      overflow: hidden;
+      mso-hide: all;
+      visibility: hidden;
+      width: 0;
+    }
+    
+    .powered-by a {
+      text-decoration: none;
+    }
+    
+    /* -------------------------------------
+    RESPONSIVE AND MOBILE FRIENDLY STYLES
+------------------------------------- */
+    
+    @media only screen and (max-width: 640px) {
+      .main p,
+      .main td,
+      .main span {
+        font-size: 16px !important;
+      }
+      .wrapper {
+        padding: 8px !important;
+      }
+      .content {
+        padding: 0 !important;
+      }
+      .container {
+        padding: 0 !important;
+        padding-top: 8px !important;
+        width: 100% !important;
+      }
+      .main {
+        border-left-width: 0 !important;
+        border-radius: 0 !important;
+        border-right-width: 0 !important;
+      }
+      .btn table {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .btn a {
+        font-size: 16px !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
+    /* -------------------------------------
+    PRESERVE THESE STYLES IN THE HEAD
+------------------------------------- */
+    
+    @media all {
+      .ExternalClass {
+        width: 100%;
+      }
+      .ExternalClass,
+      .ExternalClass p,
+      .ExternalClass span,
+      .ExternalClass font,
+      .ExternalClass td,
+      .ExternalClass div {
+        line-height: 100%;
+      }
+      .apple-link a {
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        text-decoration: none !important;
+      }
+      #MessageViewBody a {
+        color: inherit;
+        text-decoration: none;
+        font-size: inherit;
+        font-family: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+      }
+    }
+  </style>
+ </head>
+ <body>
+  <table border="0" cellpadding="0" cellspacing="0" class="body" role="presentation">
+   <tr>
+    <td>
+    </td>
+    <td class="container">
+     <div class="content">
+      <!-- START CENTERED WHITE CONTAINER -->
+      <span class="preheader">
+       This is preheader text. Some clients will show this text as a preview.
+      </span>
+      <table border="0" cellpadding="0" cellspacing="0" class="main" role="presentation">
+       <!-- START MAIN CONTENT AREA -->
+       <tr>
+        <td class="wrapper" id="insertion_point">
+         <h1>
+          Weekly GenAI Fuckboi Newsletter
+         </h1>
+         <!---
+                  <p>Hi there</p>
+                  <p>Sometimes you just want to send a simple HTML email with a simple design and clear call to action. This is it.</p>
+
+                  <table role="presentation" border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+                    <tbody>
+                      <tr>
+                        <td align="left">
+                          <table role="presentation" border="0" cellpadding="0" cellspacing="0">
+                            <tbody>
+                              <tr>
+                                <td> <a href="http://htmlemail.io" target="_blank">Call To Action</a> </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <p>This is a really simple email template. It's sole purpose is to get the recipient to click the button with no distractions.</p>
+                  <p>Good luck! Hope it works.</p>
+-->
+         <h1>
+          China
+         </h1>
+         <h2>
+          Forced Organ Harvesting: A Survivor's Story
+         </h2>
+         <p>
+          In a shocking revelation, a former Chinese prisoner has come forward with evidence of forced organ harvesting, a practice that has been shrouded in secrecy for years.
+         </p>
+         <p>
+          Mr. Cheng, a Falun Gong practitioner, was imprisoned and subjected to the brutal practice while incarcerated in China. His survival is nothing short of miraculous, and his story serves as a stark reminder of the ongoing persecution in China.
+         </p>
+         <p>
+          Cheng's testimony is crucial in shedding light on the atrocities that have been committed against Falun Gong practitioners in China. "I was tortured, and my organs were nearly removed," he shared during a press conference. "But I survived. And now, I want to speak out to prevent this from happening to others."
+         </p>
+         <p>
+          Cheng's story is not an isolated incident. It is estimated that over 100,000 people have been killed through forced organ harvesting in China each year. The international community must take action to address this heinous crime.
+         </p>
+         <p>
+          The Falun Gong Protection Act, introduced to the U.S. Senate last week, aims to hold the Chinese government accountable for these atrocities. This legislation is a critical step towards ending forced organ harvesting and protecting the rights of Falun Gong practitioners.
+         </p>
+         <p>
+          Professor Sen Nieh and Dr. Matas, experts in human rights and organ harvesting, have been tireless advocates for justice in China. "Organ harvesting is still happening in China, and it's not only happening but increasing out of control," Nieh warned. "Our leaders cannot turn their eyes away."
+         </p>
+         <p>
+          Matas echoed this urgency, stating, "We need to understand that forced organ harvesting isn't just a human rights violation – it's a crime against humanity. It's happening on a scale that is almost unimaginable, and it demands a response from the global community."
+         </p>
+         <p>
+          Despite the horrors he endured, Cheng remains determined to speak out and bring justice to those who have been silenced by the Chinese government.
+         </p>
+         <p>
+          "I am one of the lucky ones – I survived," he said. "But there are countless others who did not. Their voices were silenced, but I will continue to speak for them. The world needs to know what is happening in China. This evil cannot be allowed to continue."
+         </p>
+         <p>
+          As we highlight this critical issue, we invite you to join us in calling for justice and accountability from the Chinese government.
+         </p>
+         <p>
+          Stay informed about the Falun Gong Protection Act and its progress through our newsletter.
+         </p>
+         <p>
+          Join the conversation on social media using #StopOrganHarvesting and share Mr. Cheng's story with your network.
+         </p>
+         <p>
+          Urge your leaders to take action against forced organ harvesting in China.
+         </p>
+         <p>
+          Together, we can bring justice to those who have been silenced by the Chinese government and prevent this heinous crime from happening again.
+         </p>
+         <p>
+          Stay up-to-date on the latest news and updates about the Falun Gong Protection Act and other critical human rights issues.
+         </p>
+         <p>
+          [Insert newsletter sign-up link]
+         </p>
+         <p>
+          Together, let's make a difference!
+         </p>
+         <h2>
+          China's Renewable Energy Targets Take Shape
+         </h2>
+         <p>
+          In a recent update, China's National Development and Reform Commission (NDRC) and National Energy Administration (NEA) have released new requirements for provinces to source energy from renewable generators in 2024 and 2025. This move is part of the country's renewable energy consumption guarantee mechanism, which aims to increase domestic renewable energy consumption.
+         </p>
+         <p>
+          Six provinces have seen significant increases in their renewable energy consumption mandates between 2023 and 2024, with Heilongjiang experiencing the highest jump from 22.7% to 30.0%. Hainan, Henan, Jilin, Hunan, and Gansu also saw increases greater than 6 percentage points.
+         </p>
+         <p>
+          China is on track to meet its renewable energy consumption goals, with the mechanism serving its purpose in driving growth in renewable and non-hydro renewable consumption share. However, three provinces - Zhejiang, Yunnan, and Xinjiang - fell short of targets, but were more than made up for by the significant growth in other provinces.
+         </p>
+         <p>
+          The only potential cause for concern is the tentative mandates for 2025, which have not seen significant increases despite the overall trend of growth. This may signal that fossil fuel consumption is expected to rise in those four provinces over the next 18 months, or that these are conservative estimates that will be revised upwards when they become binding.
+         </p>
+         <p>
+          Overall, China's renewable energy targets continue to evolve and improve, with the country taking steps towards meeting its goals of peaking emissions by 2030 and reaching carbon neutrality by 2060.
+         </p>
+         <h2>
+          China's "Little Giants" Thrive Amid Trade Tensions
+         </h2>
+         <p>
+          In 2018, the Chinese government defined its "little giants" as companies with a specific set of criteria, including annual revenue between $14 million and $56 million, and a focus on innovation and research and development. The goal was to cultivate specialized and new "little giant" enterprises in the manufacturing industry.
+         </p>
+         <p>
+          Fast forward to 2024, China has already surpassed its target of 10,000 little giants, with over 140,000 small and medium-sized enterprises (SMEs) contributing to technology advancement and new product development. Of these, 12,000 are classified as little giants, which make up a significant portion of the country's supply chains.
+         </p>
+         <p>
+          These little giants have become a crucial part of China's manufacturing ecosystem, with 90% catering to the needs of big firms both domestically and globally. The government has provided incentives for these companies, including a dedicated fund of 10 billion yuan for 1,000 little giants.
+         </p>
+         <p>
+          As trade tensions between China and other countries rise, Beijing is leveraging its little giants to reduce reliance on imports and diversify its supply chains. For example, Guangxi Crystal Union Photoelectric Material's mass production of indium tin oxide has led to a significant drop in imports from major suppliers like Japan, South Korea, Malaysia, and Brazil.
+         </p>
+         <p>
+          China's strategy seems to be paying off, with the country reducing its imports of intermediate materials while also diversifying its partnerships. As these little giants continue to grow and go global, they will likely become an important part of the complex supply chains that shape the world economy.
+         </p>
+         <h1>
+          Retail
+         </h1>
+         <h2>
+          Walmart Dominates US Online Grocery Market
+         </h2>
+         <p>
+          According to a recent report, Walmart has captured 37% of the US online grocery market, its highest share level to date. This marks a significant increase from the same quarter in 2023, when Walmart held 35.5% of the market. In contrast, supermarkets saw their sales share decline by 2.5 percentage points, finishing the second quarter of 2024 with 27.3%.
+         </p>
+         <p>
+          Walmart's online grocery sales have been growing steadily over the past few years, driven in part by its ability to execute efficiently and deliver a seamless customer experience. The company's low prices and convenient pickup options have also helped attract customers who are looking for ways to save money.
+         </p>
+         <p>
+          Target has made more moderate gains in the online grocery market, increasing its share from 5.8% in 2021 to 7% in 2024. However, Walmart remains the clear leader in this space. Supermarkets, on the other hand, have struggled to keep up with the competition, losing ground in both delivery and pickup sales.
+         </p>
+         <p>
+          The report suggests that Walmart's reputation for low prices and efficient execution has helped it attract households looking for convenience and savings. As the online grocery market continues to grow - with sales projected to reach almost $120 billion by 2028 - it will be interesting to see how Walmart and its competitors continue to evolve and compete in this space.
+         </p>
+         <h2>
+          re's a summary of the article in 300 words for a newslette
+         </h2>
+         <p>
+          Walmart is expanding its immersive shopping environment, "Walmart Realm", to coincide with back-to-college season. The virtual experience allows customers to explore and shop three-dimensional animated shops, each curated by a different digital influencer or team of influencers.
+         </p>
+         <p>
+          The retailer has introduced a new phase called "Your Dorm Your Way", which features five brand-new virtual dorm rooms inspired by social trends and curated by popular digital college creators. These rooms include environments such as Sanrio, Serene Retreat, Royal, Y2K, and LoFi, each with its own theme and unique features.
+         </p>
+         <p>
+          Visitors to Walmart Realm can explore the different shops and interact with their surroundings through a 180-degree view. They can also click on "sparks" (representations of the Walmart symbol) to collect them and win prizes. As customers browse the virtual environment, they'll find mini games, surprise features, and native social content from Walmart's creators.
+         </p>
+         <p>
+          Walmart is continuing to push the boundaries of virtual commerce through its partnership with Emperia and Sawhorse Productions. The retailer has been actively expanding its channels for conducting commerce, including launching a program called Walmart Creator to make it easy for social media influencers to monetize shoppable products.
+         </p>
+         <p>
+          By entering the metaverse, Walmart aims to create stunning immersive commerce experiences that inspire customers and shorten the distance between inspiration and commerce as they shop online. With over 10,500 stores and numerous e-commerce websites in 19 countries, Walmart is taking a significant step towards embracing the limitless possibilities of virtual technologies.
+         </p>
+         <h2>
+          Walmart Dominates US Online Grocery Market
+         </h2>
+         <p>
+          According to a recent report, Walmart has achieved its highest market share ever in the US online grocery market, capturing 37% of sales in Q2 2024. This represents a 1.5 percentage point increase from the same quarter in 2023. In contrast, supermarkets lost 2.5 percentage points and now hold a 27.3% market share.
+         </p>
+         <p>
+          Walmart's dominance is attributed to its strong execution in filling pickup orders and offering prices that are halfway between those of supermarkets and Walmart itself. Target has also made gains in online grocery sales, increasing its share by 1.2 percentage points from Q2 2021 to finish with a 7% market share.
+         </p>
+         <p>
+          The report also notes that mass formats, led by Walmart, captured nearly half of all delivery sales in Q2 2024. Supermarkets, however, trailed by nearly 10 points, although promotional pushes by Instacart helped boost supermarket sales share between the first and second quarters of 2024.
+         </p>
+         <p>
+          The share of customers shopping with both supermarkets and mass formats increased to over 32%, with Walmart being one of the most commonly used platforms for cross-shopping. The analysis suggests that Walmart's reputation for low prices, combined with its efficient omnichannel strategy, has enabled it to deliver high-quality experiences at a lower cost.
+         </p>
+         <p>
+          Overall, this report highlights Walmart's continued dominance in the US online grocery market and underscores the importance of effective execution and pricing strategies in driving sales growth.
+         </p>
+         <h1>
+          Market
+         </h1>
+         <h2>
+          re is a 300-word summary of the article for your newslette
+         </h2>
+         <p>
+          Broadcom, a leading chipmaker, may be on its way to joining the trillion-dollar market cap club in the future. Despite a recent pullback, the company's prospects and growth potential suggest that this downturn could be temporary. With a current market cap of $661 billion, Broadcom is well-positioned to capitalize on the growing adoption of artificial intelligence (AI) across multiple applications.
+         </p>
+         <p>
+          The company has established a strong position in custom AI chips, with around 55-60% market share. Its ASICs are designed for specific tasks and have gained traction among tech giants such as Alphabet and Meta Platforms. In fact, Broadcom recently added a third customer for its custom AI processors, which has led to an increase in revenue expectations from AI chips.
+         </p>
+         <p>
+          AI chips accounted for 15% of Broadcom's semiconductor revenue in fiscal 2023, with this figure expected to grow to 35% in fiscal 2024. The company expects to generate more than $10 billion in revenue from sales of its custom AI chips in the next fiscal year. JPMorgan estimates that the revenue opportunity for Broadcom in custom AI chips could reach between $20-30 billion, with a compound annual growth rate of over 20% in the long run.
+         </p>
+         <p>
+          Additionally, Broadcom's networking business is also benefiting from the growing demand for high-speed connectivity to transfer data rapidly in AI data centers. Shipments of its ethernet switches have doubled on a year-over-year basis, and market research firms expect AI-specific network traffic to grow at an annual rate of 120% through 2030.
+         </p>
+         <p>
+          Based on these growth opportunities, analysts predict that Broadcom's earnings will continue to grow at a healthy pace over the next five years. With a projected stock price jump of around 53%, this AI stock could be well on its way to joining the trillion-dollar market cap club.
+         </p>
+         <h2>
+          O Logistics, the world's largest pure-play contract-logistics company, recently reported earnings that were mostly in line with estimates. However, organic revenue growth of 2% was at the bottom end of the company's full-year guidance, and earnings took a hit due to headwinds in the macro-level economy. Despite this, GXO remains confident in its long-term prospect
+         </h2>
+         <p>
+          The company has executed on its vision to make acquisitions and grow organically, with three deals in three years. However, a sluggish economy has presented challenges, including inventory gluts following the pandemic. As a result, GXO shares have traded mostly sideways in the last few years, but now offer an attractive buying opportunity at current levels.
+         </p>
+         <p>
+          GXO's technological advantage and global reach are expected to help it continue to attract new customers and grow existing relationships. The company remains focused on its 2027 targets, which include organic revenue growth of 8-12% CAGR, reaching $17 billion in revenue, and cumulative free cash flow generated during that time of $2 billion.
+         </p>
+         <p>
+          The logistics industry has evolved significantly, with GXO investing heavily in technology to become highly automated. The company's sales pipeline increased to a 12-month high of $2.3 billion, and new business wins totaled $270 million in annualized revenue. With falling interest rates expected to boost the economy, patient investors may find GXO an attractive buy at current levels.
+         </p>
+         <p>
+          Valued at roughly six times 2027 EBITDA, GXO's enterprise value offers a compelling opportunity for investors looking to take advantage of the recent sell-off. While it will take time for momentum in the business to reaccelerate, GXO's long-term growth prospects remain strong, making this an attractive buying opportunity for patient investors.
+         </p>
+         <h2>
+          GXO Logistics: A Buying Opportunity?
+         </h2>
+         <p>
+          GXO Logistics, the world's largest pure-play contract-logistics company, recently reported earnings that fell short of expectations. As a result, its shares have dropped 5% and are now down 54% from their post-spinoff peak in 2021. Despite this decline, some experts believe it may be a good time to invest in the company.
+         </p>
+         <p>
+          GXO has executed on its vision of making acquisitions and growing organically since its spinoff from XPO in 2021. The company made three acquisitions in three years and has invested heavily in technology to remain competitive. Its sales pipeline has increased to a 12-month high, and it signed $270 million worth of new business wins in the quarter.
+         </p>
+         <p>
+          The logistics industry is evolving, with companies like GXO embracing automation and artificial intelligence to stay ahead. The company's use of humanoid robots and AI technology in its warehouses is a notable example of this trend.
+         </p>
+         <p>
+          While GXO's recent earnings report was mixed, management remains optimistic about the company's future. They expect inventory trends to improve and easier comparisons heading into the second half of the year. With an enterprise value of $10.6 billion, the stock trades at roughly six times 2027 EBITDA, making it a potentially attractive buy for patient investors.
+         </p>
+         <p>
+          As the economy picks up pace with falling interest rates, GXO's technological advantage and global reach are expected to continue driving growth. For those willing to take a long-term view, GXO Logistics may be a good opportunity to consider.
+         </p>
+        </td>
+       </tr>
+       <!-- END MAIN CONTENT AREA -->
+      </table>
+      <!-- START FOOTER -->
+      <div class="footer">
+       <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+        <tr>
+         <td class="content-block">
+          <span class="apple-link">
+           Your Average Hentai Enjoyer
+          </span>
+          <br/>
+          Don't like these emails?
+          <a href="http://htmlemail.io/blog">
+           Unsubscribe
+          </a>
+          .
+         </td>
+        </tr>
+        <tr>
+         <td class="content-block powered-by">
+          Powered by
+          <a href="http://htmlemail.io">
+           HTMLemail.io
+          </a>
+         </td>
+        </tr>
+       </table>
+      </div>
+      <!-- END FOOTER -->
+      <!-- END CENTERED WHITE CONTAINER -->
+     </div>
+    </td>
+    <td>
+    </td>
+   </tr>
+  </table>
+ </body>
+</html>
